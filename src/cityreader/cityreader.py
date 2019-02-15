@@ -7,8 +7,8 @@ import csv
 class City:
     def __init__(self, name, lat, lon):
         self.name = name
-        self.lat = lat
-        self.lon = lon
+        self.lat = float(lat)
+        self.lon = float(lon)
 
     def __repr__(self):
         return (f'{self.name}, {self.lat}, {self.lon}')
@@ -33,7 +33,7 @@ def cityreader(cities=[]):
     with open('cities.csv', newline="") as csv_file:
         reader = csv.reader(csv_file)
         for city in list(reader)[1:]:
-            cities.append(City(city[0], float(city[3]), float(city[4])))
+            cities.append(City(city[0], city[3], city[4]))
     return cities
   # TODO Implement the functionality to read from the 'cities.csv' file
   # For each city record, create a new City instance and add it to the
@@ -102,12 +102,17 @@ for lat in next_lat_lon:
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
+    # within = []
+    lat = [float(lat1), float(lat2)]
+    lon = [float(lon1), float(lon2)]
+    lat.sort()
+    lon.sort()
     within = []
-
     for city in cities:
-        if lat1 <= city[1] <= lat2 and lon1 <= city[2] <= lon2:
+        if lat[0] <= city.lat <= lat[1] and lon[0] <= city.lon <= lon[1]:
             within.append(city)
-    print(within)
+
+    # print(within)
 
     # TODO Ensure that the lat and lon valuse are all floats
     # Go through each city and check to see if it falls within
